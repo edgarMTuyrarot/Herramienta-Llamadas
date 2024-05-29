@@ -1,0 +1,612 @@
+<script>
+    var llamada = {}
+    let arrayDestinatariosFinales = []
+    var arrayTips = []
+    var arrayAgentes = []
+    var listaMails = document.getElementById("listaMails")
+    var agente = {}
+    var agenteSeleccionado = document.getElementById("listaAgentesValor")
+    var cuerpoMail = ""
+    var fler = ""
+    var jcc = ""
+    var qa = ""
+    var fcr = document.getElementById("fcr")
+    var nps = document.getElementById("nps")
+    var tmo = document.getElementById("tmo")
+    var reten = document.getElementById("reten")
+    var trf = document.getElementById("trf")
+    var scc = document.getElementById("scc")
+    var bajas = document.getElementById("bajas")
+    var hreten = document.getElementById("hreten")
+    var arrayButtons = []
+    var audio
+    var btnAgregarDestinatario = document.getElementById("btn_add_destinatario")
+    var arrayDestinatarios = []
+    var arrayMails = []
+  
+    const loading = new bootstrap.Modal(document.getElementById('loading'), {
+    keyboard: false
+    })
+    const success = new bootstrap.Modal(document.getElementById('success'), {
+    keyboard: false
+    })
+  
+    const preview = new bootstrap.Modal(document.getElementById('preview'), {
+    keyboard: false
+    })
+  
+  
+  
+  
+    
+  
+    //Carar agentes::
+    loading.show()
+    google.script.run.withSuccessHandler(agentes=>{
+      console.log(agentes)
+      arrayAgentes = agentes;
+      arrayAgentes.forEach(function(agente){
+        option = document.createElement("option");
+        option.value = agente.nombre;  
+        listaAgentes.append(option);  
+  
+      })
+  
+      google.script.run.withSuccessHandler(fecha=>{
+  
+        console.log(fecha)
+  
+  
+      }
+      ).fechas();
+  
+      google.script.run.withSuccessHandler(dato=>{
+        arrayMails = dato
+        console.log(dato)
+        dato.forEach(mail=>{
+          optionMail = document.createElement("option");
+          optionMail.value = mail.nombre
+          listaMails.append(optionMail)
+        })
+      }).traerMails()
+      loading.hide()
+  
+    }
+    ).traerAgentes();
+  
+  
+    
+  
+    var id = document.getElementById("id")
+    var valida_datos = document.getElementById("valida_datos")
+    var explica_factura = document.getElementById("explica_factura")
+    var vigencia_promo = document.getElementById("vigencia_promo")
+    var aumento_precios = document.getElementById("aumento_precios")
+    var pagos_TC = document.getElementById("pagos_TC")
+    var medios_de_pago = document.getElementById("medios_de_pago")
+    var mi_personal = document.getElementById("mi_personal")
+    var personal_pay = document.getElementById("personal_pay")
+    var hub = document.getElementById("hub")
+    var whatsapp = document.getElementById("whatsapp")
+    var incentivar_encuesta = document.getElementById("incentivar_encuesta")
+    var cierre = document.getElementById("cierre")
+    var detalle_llamada = document.getElementById("detalle_llamada")
+    var devolucion = document.getElementById("devolucion")
+    var habilidades_mejorar = document.getElementById("habilidades_mejorar")
+    var ppromo = document.getElementById("ppromo")
+    var retenPosi = document.getElementById("reten+")
+  
+    var total = 0
+    var resultado = 0
+  
+    arrayTips.push(valida_datos,explica_factura,vigencia_promo,aumento_precios,pagos_TC,medios_de_pago,mi_personal,personal_pay,hub,whatsapp,incentivar_encuesta,cierre,ppromo,retenPosi,tiempos)
+  
+    var totalTips = arrayTips.length
+  
+    arrayTips.forEach(tip=>{
+      tip.addEventListener("change",()=>{
+        
+        total=0
+        totalTips = arrayTips.length
+        arrayTips.forEach(e=>{
+        if(e.value=="Si"){
+          total++
+          resultado = total/totalTips
+          e.classList.add("bg-success")
+          e.classList.add("text-white")
+          e.classList.remove("bg-danger")
+          e.classList.remove("text-white")
+          e.classList.remove("bg-secondary")
+          e.classList.remove("text-white")
+        }
+        if(e.value=="No"){
+          resultado = total/totalTips
+          e.classList.add("bg-danger")
+          e.classList.add("text-white")
+          e.classList.remove("bg-success")
+          e.classList.remove("text-white")
+          e.classList.remove("bg-secondary")
+          e.classList.remove("text-white")
+        }
+        if(e.value=="n/a")
+        {
+          totalTips--
+          
+          resultado = total/totalTips
+          e.classList.add("bg-secondary")
+          e.classList.add("text-white")
+          e.classList.remove("bg-success")
+          e.classList.remove("text-white")
+          e.classList.remove("bg-danger")
+          e.classList.remove("text-white")
+          }
+        
+  
+      })
+  
+      document.getElementById("porcentaje").textContent = (resultado*100).toFixed(2)+"%"
+  
+      })
+    })
+  
+    agenteSeleccionado.addEventListener("change",()=>{
+            arrayAgentes.forEach(data=>{
+  
+            if(agenteSeleccionado.value == data.nombre){
+                  agente.nombre = data.nombre
+                  agente.mail = data.mail
+                  agente.usuario = data.usuario
+                  agente.primerNombre = data.primerNombre
+                  agente.sup = data.sup
+                  agente.jefe = data.jefe
+                  agente.fcr = data.fcr
+                  agente.nps = data.nps
+                  agente.tmo = data.tmo
+                  agente.reten = data.reten
+                  agente.trf = data.trf
+                  agente.scc = data.scc
+                  agente.hreten = data.hreten
+                  agente.bajas = data.bajas
+  
+                  tmo.textContent = agente.tmo!="S/D"?`${(agente.tmo).toFixed(0)}`:"S/D"
+                  fcr.textContent = agente.fcr!="S/D"?`${(agente.fcr*100).toFixed(2)+"%"}`:"S/D"
+                  nps.textContent = agente.nps!="S/D"?`${(agente.nps*100).toFixed(2)+"%"}`:"S/D"
+                  reten.textContent = agente.reten!="S/D"?`${(agente.reten*100).toFixed(2)+"%"}`:"S/D"
+                  trf.textContent = agente.trf!="S/D"?`${(agente.trf*100).toFixed(2)+"%"}`:"S/D"
+                  trf.textContent = agente.trf!="S/D"?`${(agente.trf*100).toFixed(2)+"%"}`:"S/D"
+                  scc.textContent = agente.scc!="S/D"?`${(agente.scc*100).toFixed(2)+"%"}`:"S/D"
+                  hreten.textContent = agente.hreten!="S/D"?`${(agente.hreten).toFixed(0)}`:"S/D"
+                  bajas.textContent = agente.bajas!="S/D"?`${(agente.bajas).toFixed(0)}`:"S/D"
+  
+  
+  
+              }
+          })
+    })
+    let btn = ``
+    //Funcion BTN destinatarios.
+    listaMailsValor.addEventListener("change",()=>{
+  
+      arrayDestinatarios.push(listaMailsValor.value)
+      divDestinatarios()
+  
+    })
+  
+    const divDestinatarios = ()=>{
+  
+     
+      let listaDesti = document.getElementById("divDestinatarios")
+      arrayMails.forEach(mail=>{
+        
+      if(mail.nombre == listaMailsValor.value){
+        var btn_element = document.createElement('button');
+  
+        btn_element.classList.add("btn")
+        btn_element.classList.add("btn-outline-secondary")
+        btn_element.classList.add("btn-sm")
+        btn_element.value = mail.mail
+        btn_element.textContent = mail.nombre
+  
+        btn_element.addEventListener("click",()=>{
+          console.log(btn_element.value)
+  
+          resultado = arrayButtons.filter((btn) => btn_element.value != btn.value);
+          arrayButtons = resultado
+          console.log(resultado)
+            listaDesti.innerHTML = ""
+            arrayButtons.forEach(btn=>{
+                listaDesti.appendChild(btn)
+            })
+         
+        })
+  
+  
+        arrayButtons.push(btn_element)
+  
+      }
+      })
+      listaDesti.innerHTML = ""
+      arrayButtons.forEach(btn=>{
+          listaDesti.appendChild(btn)
+      })
+      
+      listaMailsValor.value = ""
+  
+    }
+  
+    function borrar(v){
+      arrayButtons.remove(v)
+      listaDesti.innerHTML =" "
+      listaDesti.innerHTML = arrayButtons
+    }
+  
+  
+    //Funcion del btn final
+    document.getElementById("btn_final").addEventListener("click",()=>{
+      arrayButtons.forEach(dato=>{
+        
+        arrayDestinatariosFinales.push(dato.value)
+      })
+  
+   
+      
+  
+          arrayAgentes.forEach(data=>{
+            if(agenteSeleccionado.value == data.nombre){
+                  agente.nombre = data.nombre
+                  agente.mail = data.mail
+                  agente.usuario = data.usuario,
+                  agente.primerNombre = data.primerNombre,
+                  agente.sup = data.sup,
+                  agente.jefe = data.jefe
+  
+  
+              }
+          })
+        
+        llamada = {
+          "agente": agente.nombre,
+          "sup":agente.sup,
+          "jefe":agente.jefe,
+          "linea" : document.getElementById("id").value,
+          "validaDatos" : valida_datos.value,
+          "explicaFT": explica_factura.value,
+          "vigenciaPromo" : vigencia_promo.value,
+          "aumentoPrecio" : aumento_precios.value,
+          "pagoTC" : pagos_TC.value,
+          "mediosPago" : medios_de_pago.value,
+          "miPersonal" : mi_personal.value,
+          "personalPay" : personal_pay.value,
+          "hub" : hub.value,
+          "whts" : whatsapp.value,
+          "encuesta" : incentivar_encuesta.value,
+          "cierre" : cierre.value,
+          "ppromo" : ppromo.value,
+          "retenPosi" : retenPosi.value,
+          "tiempos": document.getElementById("tiempos").value,
+          "fecha": document.getElementById("fecha").value,
+          "porcentaje" : (resultado*100).toFixed(2)+"%",
+          "link":""
+  
+        }
+            
+   
+  
+  
+          cuerpoMail = 
+          `  
+          <h2>Hola! ${agente.primerNombre}</h2>
+          
+          <p style="font-size: 20px">Te dejo la devolucion de tu llamada : <a href='${llamada.link}'>click para escucharla</a></p>
+          <br>
+          <h2 style="color:#0068B4;">Detalles de la llamada</h2>        
+          <pre style="font-size: 15px;font-family: Arial;">${detalle_llamada.value}</pre>
+          <h2 style="color:#0068B4;">Habilidades a mejorar</h2>        
+          <pre style="font-size: 15px;font-family: Arial;">${habilidades_mejorar.value}</pre>
+          <h2 style="color:#0068B4;">Devolucion</h2>       
+          <pre style="font-size: 15px;font-family: Arial;">${devolucion.value}</pre>
+  
+          <h2 style="color:#0068B4;">Aplicacion de Tips</h2>  
+          <div style="">
+          <table style="text-align:left;width:80%;font-size:20px;margin:auto;">
+            <thead>
+              <tr style="font-weight: bold;">
+                <td style="border-bottom: 1px solid #ddd;">Tip</td>
+                <td style="border-bottom: 1px solid #ddd;">Se Aplico?</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="border-bottom: 1px solid #ddd;"> Validacion de Datos: </td>
+                <td style="border-bottom: 1px solid #ddd;"><strong style="color:${valida_datos.value=="Si"?"#34C45E":"#FF3333;"};">${llamada.validaDatos}</strong></td>
+              </tr>
+              <tr>
+                <td style="border-bottom: 1px solid #ddd;">Explicación de items facturados</td>
+                <td style="border-bottom: 1px solid #ddd;"><strong style="color:${explica_factura.value=="Si"?"#34C45E":"#FF3333;"};">${llamada.explicaFT}</strong></td>
+              </tr>
+              <tr>
+                <td style="border-bottom: 1px solid #ddd;">Vigencia de promo</td>
+                <td style="border-bottom: 1px solid #ddd;"><strong style="color:${vigencia_promo.value=="Si"?"#34C45E":"#FF3333;"};">${llamada.vigenciaPromo}</strong></td>
+              </tr>
+              <tr>
+                <td style="border-bottom: 1px solid #ddd;">Aumento de precio y beneficio descuentos porcentual</td>
+                <td style="border-bottom: 1px solid #ddd;"><strong style="color:${aumento_precios.value=="Si"?"#34C45E":"#FF3333;"};">${llamada.aumentoPrecio}</strong></td>
+              </tr>
+              <tr>
+                <td style="border-bottom: 1px solid #ddd;">Ofrece pago con tarjeta de credito</td>
+                <td style="border-bottom: 1px solid #ddd;"><strong style="color:${pagos_TC.value=="Si"?"#34C45E":"#FF3333;"};">${llamada.pagoTC}</strong></td>
+              </tr>
+              <tr>
+                <td style="border-bottom: 1px solid #ddd;">Informa medios de pago</td>
+                <td style="border-bottom: 1px solid #ddd;"><strong style="color:${medios_de_pago.value=="Si"?"#34C45E":"#FF3333;"};">${llamada.mediosPago}</strong></td>
+              </tr>
+              <tr>
+                <td style="border-bottom: 1px solid #ddd;">Incentiva Mi Personal APP</td>
+                <td style="border-bottom: 1px solid #ddd;"><strong style="color:${mi_personal.value=="Si"?"#34C45E":"#FF3333;"};">${llamada.miPersonal}</strong></td>
+              </tr>
+              <tr>
+                <td style="border-bottom: 1px solid #ddd;">Incentiva Personal Pay</td>
+                <td style="border-bottom: 1px solid #ddd;"><strong style="color:${personal_pay.value=="Si"?"#34C45E":"#FF3333;"};">${llamada.personalPay}</strong></td>
+              </tr>
+              <tr>
+                <td style="border-bottom: 1px solid #ddd;">Utiliza Hub proactivamente y confirma recepcion</td>
+                <td style="border-bottom: 1px solid #ddd;"><strong style="color:${hub.value=="Si"?"#34C45E":"#FF3333;"};">${llamada.hub}</strong></td>
+              </tr>
+              <tr>
+                <td style="border-bottom: 1px solid #ddd;">Informa medio de Whatsapp</td>
+                <td style="border-bottom: 1px solid #ddd;"><strong style="color:${whatsapp.value=="Si"?"#34C45E":"#FF3333;"};">${llamada.whts}</strong></td>
+              </tr>
+              <tr>
+                <td style="border-bottom: 1px solid #ddd;">Incentiva encuesta de atencion</td>
+                <td style="border-bottom: 1px solid #ddd;"><strong style="color:${incentivar_encuesta.value=="Si"?"#34C45E":"#FF3333;"};">${llamada.encuesta}</strong></td>
+              </tr>
+              <tr>
+                <td style="border-bottom: 1px solid #ddd;">Usa speech PPROMO</td>
+                <td style="border-bottom: 1px solid #ddd;"><strong style="color:${ppromo.value=="Si"?"#34C45E":"#FF3333;"};">${llamada.ppromo}</strong></td>
+              </tr>
+              <tr>
+                <td style="border-bottom: 1px solid #ddd;">Marca retención positiva</td>
+                <td style="border-bottom: 1px solid #ddd;"><strong style="color:${retenPosi.value=="Si"?"#34C45E":"#FF3333;"};">${llamada.retenPosi}</strong></td>
+              </tr>
+              <tr>
+                <td style="border-bottom: 1px solid #ddd;">Tiempos de llamda correctos</td>
+                <td style="border-bottom: 1px solid #ddd;"><strong style="color:${tiempos.value=="Si"?"#34C45E":"#FF3333;"};">${llamada.tiempos}</strong></td>
+              </tr>
+              <tr>
+                <td style="border-bottom: 1px solid #ddd;">Cierre de llamada repasando gestion y asegurando comprension</td>
+                <td style="border-bottom: 1px solid #ddd;"><strong style="color:${cierre.value=="Si"?"#34C45E":"#FF3333;"};">${llamada.cierre}</strong></td>
+              </tr>
+  
+            </tbody>
+            <tfoot>
+              <tr style="font-weight: bold;">
+                <td>Resultado:</td>
+                <td><strong style="color:${(resultado>=0.9)?"#34C45E":"#FF3333;"};">${(resultado*100).toFixed(2)}%</strong></h3></td>
+              </tr>
+            </tfoot>
+          </table>
+          </div>
+          
+          <h2 style="color:#0068B4;">Metricas</h2>
+          <p style="font-size: 20px;">NPS: ${document.getElementById("nps").textContent}</p>
+          <p style="font-size: 20px;">FCR: ${document.getElementById("fcr").textContent}</p>
+          <p style="font-size: 20px;">Retencion:${document.getElementById("reten").textContent}</p>
+          <p style="font-size: 20px;">TMO: ${document.getElementById("tmo").textContent}</p>
+          <p style="font-size: 20px;">TRF: ${document.getElementById("trf").textContent}</p>
+  
+  
+          `
+          
+  
+        
+          
+      document.getElementById("modalPreview").innerHTML = cuerpoMail
+      preview.show()
+  
+  
+  
+    })
+  
+    
+  
+    document.getElementById("btn_editar").addEventListener("click",()=>{
+      preview.hide()
+    })
+  
+    document.getElementById("btn_enviar").addEventListener("click",()=>{
+      
+          preview.hide()
+          loading.show()
+          //se carga la llamada a drive y luego se devuelve el link para anexar al mail.
+              console.log(document.getElementById("file").files[0])
+              if(document.getElementById("file").files[0]){
+                var fileInput = document.getElementById('file');
+                var file = fileInput.files[0];
+                var reader = new FileReader();
+                
+                reader.onload = function(event) {
+                  var fileData = {
+                        fileName: `${agente.nombre} - ${llamada.linea}`,
+                        mimeType: file.type,
+                        file: event.target.result.split(",")[1] // Elimina el prefijo de la base64
+                    };             
+  
+  
+                    google.script.run.withSuccessHandler(function(response) {
+                      //Se ejecuta scrip de envio de mail       
+                      llamada.link = response   
+                      cuerpoMail = crearMail(llamada)
+                      google.script.run.withSuccessHandler(data=>{
+                        loading.hide()
+                        arrayTips.forEach(tip=>{
+                          tip.value = ""
+                          tip.classList.remove("bg-danger")
+                          tip.classList.remove("bg-success")
+                          tip.classList.remove("bg-secondary")
+                        })
+  
+                        document.getElementById("id").value = ""
+                        document.getElementById("porcentaje").textContent = "-%"
+                        devolucion.value = ""
+                        habilidades_mejorar.value = ""
+                        detalle_llamada.value = ""
+                        document.getElementById("nps").value = ""
+                        document.getElementById("fcr").value = ""
+                        document.getElementById("reten").value = ""
+                        document.getElementById("tmo").value = ""
+                        agente = {}
+                        success.show()
+  
+                      }).enviarMail(cuerpoMail,(`${agente.mail},${arrayDestinatariosFinales.toString()}`),llamada);
+                      
+                  }).subirAudio(fileData);
+  
+              };
+              reader.readAsDataURL(file);
+              }else{
+                google.script.run.withSuccessHandler(data=>{
+                        loading.hide()
+                        arrayTips.forEach(tip=>{
+                          tip.value = ""
+                          tip.classList.remove("bg-danger")
+                          tip.classList.remove("bg-success")
+                          tip.classList.remove("bg-secondary")
+                        })
+  
+                        document.getElementById("id").value = ""
+                        document.getElementById("porcentaje").textContent = "-%"
+                        devolucion.value = ""
+                        habilidades_mejorar.value = ""
+                        detalle_llamada.value = ""
+                        document.getElementById("nps").value = ""
+                        document.getElementById("fcr").value = ""
+                        document.getElementById("reten").value = ""
+                        document.getElementById("tmo").value = ""
+                        agente = {}
+                        success.show()
+  
+                      }).enviarMail(cuerpoMail,(`${agente.mail},${arrayDestinatariosFinales.toString()}`),llamada);
+  
+              }
+  
+  
+  
+  
+      
+  
+    })
+  
+  
+  function crearMail(llamada){
+    cuerpoMail = 
+          `  
+          <h2>Hola! ${agente.primerNombre}</h2>
+          
+          <p style="font-size: 20px">Te dejo la devolucion de tu llamada : <a href='${llamada.link}'>click para escucharla</a></p>
+          <br>
+          <h2 style="color:#0068B4;">Detalles de la llamada</h2>        
+          <pre style="font-size: 15px;font-family: Arial;">${detalle_llamada.value}</pre>
+          <h2 style="color:#0068B4;">Habilidades a mejorar</h2>        
+          <pre style="font-size: 15px;font-family: Arial;">${habilidades_mejorar.value}</pre>
+          <h2 style="color:#0068B4;">Devolucion</h2>       
+          <pre style="font-size: 15px;font-family: Arial;">${devolucion.value}</pre>
+  
+          <h2 style="color:#0068B4;">Aplicacion de Tips</h2>  
+          <div style="">
+          <table style="text-align:left;width:80%;font-size:20px;margin:auto;">
+            <thead>
+              <tr style="font-weight: bold;">
+                <td style="border-bottom: 1px solid #ddd;">Tip</td>
+                <td style="border-bottom: 1px solid #ddd;">Se Aplico?</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="border-bottom: 1px solid #ddd;"> Validacion de Datos: </td>
+                <td style="border-bottom: 1px solid #ddd;"><strong style="color:${valida_datos.value=="Si"?"#34C45E":"#FF3333;"};">${llamada.validaDatos}</strong></td>
+              </tr>
+              <tr>
+                <td style="border-bottom: 1px solid #ddd;">Explicación de items facturados</td>
+                <td style="border-bottom: 1px solid #ddd;"><strong style="color:${explica_factura.value=="Si"?"#34C45E":"#FF3333;"};">${llamada.explicaFT}</strong></td>
+              </tr>
+              <tr>
+                <td style="border-bottom: 1px solid #ddd;">Vigencia de promo</td>
+                <td style="border-bottom: 1px solid #ddd;"><strong style="color:${vigencia_promo.value=="Si"?"#34C45E":"#FF3333;"};">${llamada.vigenciaPromo}</strong></td>
+              </tr>
+              <tr>
+                <td style="border-bottom: 1px solid #ddd;">Aumento de precio y beneficio descuentos porcentual</td>
+                <td style="border-bottom: 1px solid #ddd;"><strong style="color:${aumento_precios.value=="Si"?"#34C45E":"#FF3333;"};">${llamada.aumentoPrecio}</strong></td>
+              </tr>
+              <tr>
+                <td style="border-bottom: 1px solid #ddd;">Ofrece pago con tarjeta de credito</td>
+                <td style="border-bottom: 1px solid #ddd;"><strong style="color:${pagos_TC.value=="Si"?"#34C45E":"#FF3333;"};">${llamada.pagoTC}</strong></td>
+              </tr>
+              <tr>
+                <td style="border-bottom: 1px solid #ddd;">Informa medios de pago</td>
+                <td style="border-bottom: 1px solid #ddd;"><strong style="color:${medios_de_pago.value=="Si"?"#34C45E":"#FF3333;"};">${llamada.mediosPago}</strong></td>
+              </tr>
+              <tr>
+                <td style="border-bottom: 1px solid #ddd;">Incentiva Mi Personal APP</td>
+                <td style="border-bottom: 1px solid #ddd;"><strong style="color:${mi_personal.value=="Si"?"#34C45E":"#FF3333;"};">${llamada.miPersonal}</strong></td>
+              </tr>
+              <tr>
+                <td style="border-bottom: 1px solid #ddd;">Incentiva Personal Pay</td>
+                <td style="border-bottom: 1px solid #ddd;"><strong style="color:${personal_pay.value=="Si"?"#34C45E":"#FF3333;"};">${llamada.personalPay}</strong></td>
+              </tr>
+              <tr>
+                <td style="border-bottom: 1px solid #ddd;">Utiliza Hub proactivamente y confirma recepcion</td>
+                <td style="border-bottom: 1px solid #ddd;"><strong style="color:${hub.value=="Si"?"#34C45E":"#FF3333;"};">${llamada.hub}</strong></td>
+              </tr>
+              <tr>
+                <td style="border-bottom: 1px solid #ddd;">Informa medio de Whatsapp</td>
+                <td style="border-bottom: 1px solid #ddd;"><strong style="color:${whatsapp.value=="Si"?"#34C45E":"#FF3333;"};">${llamada.whts}</strong></td>
+              </tr>
+              <tr>
+                <td style="border-bottom: 1px solid #ddd;">Incentiva encuesta de atencion</td>
+                <td style="border-bottom: 1px solid #ddd;"><strong style="color:${incentivar_encuesta.value=="Si"?"#34C45E":"#FF3333;"};">${llamada.encuesta}</strong></td>
+              </tr>
+              <tr>
+                <td style="border-bottom: 1px solid #ddd;">Usa speech PPROMO</td>
+                <td style="border-bottom: 1px solid #ddd;"><strong style="color:${ppromo.value=="Si"?"#34C45E":"#FF3333;"};">${llamada.ppromo}</strong></td>
+              </tr>
+              <tr>
+                <td style="border-bottom: 1px solid #ddd;">Marca retención positiva</td>
+                <td style="border-bottom: 1px solid #ddd;"><strong style="color:${retenPosi.value=="Si"?"#34C45E":"#FF3333;"};">${llamada.retenPosi}</strong></td>
+              </tr>
+              <tr>
+                <td style="border-bottom: 1px solid #ddd;">Tiempos de llamda correctos</td>
+                <td style="border-bottom: 1px solid #ddd;"><strong style="color:${tiempos.value=="Si"?"#34C45E":"#FF3333;"};">${llamada.tiempos}</strong></td>
+              </tr>
+              <tr>
+                <td style="border-bottom: 1px solid #ddd;">Cierre de llamada repasando gestion y asegurando comprension</td>
+                <td style="border-bottom: 1px solid #ddd;"><strong style="color:${cierre.value=="Si"?"#34C45E":"#FF3333;"};">${llamada.cierre}</strong></td>
+              </tr>
+  
+            </tbody>
+            <tfoot>
+              <tr style="font-weight: bold;">
+                <td>Resultado:</td>
+                <td><strong style="color:${(resultado>=0.9)?"#34C45E":"#FF3333;"};">${(resultado*100).toFixed(2)}%</strong></h3></td>
+              </tr>
+            </tfoot>
+          </table>
+          </div>
+          
+          <h2 style="color:#0068B4;">Metricas</h2>
+          <p style="font-size: 20px;">NPS: ${document.getElementById("nps").textContent}</p>
+          <p style="font-size: 20px;">FCR: ${document.getElementById("fcr").textContent}</p>
+          <p style="font-size: 20px;">Retencion:${document.getElementById("reten").textContent}</p>
+          <p style="font-size: 20px;">TMO: ${document.getElementById("tmo").textContent}</p>
+          <p style="font-size: 20px;">TRF: ${document.getElementById("trf").textContent}</p>
+  
+  
+          `
+  
+          return cuerpoMail
+  }
+  
+  
+  
+  
+  
+  </script>

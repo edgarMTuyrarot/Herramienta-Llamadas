@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <base target="_top">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="aNonymous">
+  <?!= include('estilos'); ?>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
+
+  <div id="central" class="m-auto" style="width:1150px;">
+    <h2 class="m-auto">Escuchas</h2>
+
+    <div class="row">
+      <label for="listaAgentesvalor" class="form-label"></label>
+      <input class="form-control m-1 w-50" list="listaAgentes" id="listaAgentesValor" placeholder="Agente...">
+      <datalist id="listaAgentes">
+      </datalist>
+      <input type="date" id="fecha" class="form-control m-1 w-25">
+      <input type="text" class="form-control m-1 w-25" id="id" placeholder="ID/Linea"/>
+      <input class="form-control m-1 w-50"  type="file" id="file" multiple >
+    </div>
+
+
+
+
+    <div class="row border border-3 rounded-2 p-1 ">
+
+      <div class="col p-1">
+
+        <div class="d-flex justify-content-end">
+          <label class="form-check-label me-1" for="valida_datos">Validacion de  Datos</label>
+          <select class="form-select form-select-sm " style="width: 90px;" aria-label=".form-select-sm example" id="valida_datos">
+          <option value=""> </option>
+          <option value="Si">Si</option>
+          <option value="No">No</option>
+          <option value="n/a">N/A</option>
+        </select>
+        </div>
+        <div class="d-flex justify-content-end">
+          <label class="form-check-label me-1" for="explica_factura">Explicacion de los items facturados</label>
+          <select class="form-select form-select-sm " style="width: 90px;" aria-label=".form-select-sm example" id="explica_factura">
+          <option value=""> </option>
+          <option value="Si">Si</option>
+          <option value="No">No</option>
+          <option value="n/a">N/A</option>
+        </select>
+        </div>
+        <div class="d-flex justify-content-end">
+          <label class="form-check-label me-1" for="vigencia_promo">Detallar vigencia de promo</label>
+          <select class="form-select form-select-sm" style="width: 90px;" aria-label=".form-select-sm example" id="vigencia_promo">
+          <option value=""> </option>
+          <option value="Si">Si</option>
+          <option value="No">No</option>
+          <option value="n/a">N/A</option>
+        </select>
+        </div>
+
+        <div class="d-flex justify-content-end">
+          <label class="form-check-label me-1" for="aumento_precios">Informar aumento de precios ventajas de descuento porcentual</label>
+          <select class="form-select form-select-sm " style="width: 90px;" aria-label=".form-select-sm example" id="aumento_precios">
+          <option value=""> </option>
+          <option value="Si">Si</option>
+          <option value="No">No</option>
+          <option value="n/a">N/A</option>
+        </select>
+        </div>
+
+        <div class="d-flex justify-content-end">
+          <label class="form-check-label me-1" for="pagos_TC">Ofrecer pago con tarjeta de credito</label>
+          <select class="form-select form-select-sm" style="width: 90px;" aria-label=".form-select-sm example" id="pagos_TC">
+          <option value=""> </option>
+          <option value="Si">Si</option>
+          <option value="No">No</option>
+          <option value="n/a">N/A</option>
+        </select>
+        </div>
+
+        <div class="d-flex justify-content-end">
+          <label class="form-check-label me-1" for="medios_de_pago">Indicar lugares y medios de pago</label>
+          <select class="form-select form-select-sm " style="width: 90px;" aria-label=".form-select-sm example" id="medios_de_pago">
+          <option value=""> </option>
+          <option value="Si">Si</option>
+          <option value="No">No</option>
+          <option value="n/a">N/A</option>
+        </select>
+        </div>
+
+        <div class="d-flex justify-content-end">
+          <label class="form-check-label me-1" for="mi_personal">Incentivar App Mi Personal</label>
+          <select class="form-select form-select-sm" style="width: 90px;" aria-label=".form-select-sm example" id="mi_personal">
+          <option value=""> </option>
+          <option value="Si">Si</option>
+          <option value="No">No</option>
+          <option value="n/a">N/A</option>
+        </select>
+        </div>
+
+        <div class="d-flex justify-content-end">
+          <label class="form-check-label me-1" for="personal_pay">Incentivar Personal Pay</label>
+          <select class="form-select form-select-sm " style="width: 90px;" aria-label=".form-select-sm example" id="personal_pay">
+          <option value=""> </option>
+          <option value="Si">Si</option>
+          <option value="No">No</option>
+          <option value="n/a">N/A</option>
+        </select>
+        </div>
+
+        <div class="d-flex justify-content-end">
+          <label class="form-check-label me-1" for="hub">Envio proactivo de hub confirmar recepcion</label>
+          <select class="form-select form-select-sm " style="width: 90px;" aria-label=".form-select-sm example" id="hub">
+          <option value=""> </option>
+          <option value="Si">Si</option>
+          <option value="No">No</option>
+          <option value="n/a">N/A</option>
+        </select>
+        </div>
+
+        <div class="d-flex justify-content-end">
+          <label class="form-check-label me-1" for="whatsapp">Informar utilidad de whatsapp 1171950001</label>
+          <select class="form-select form-select-sm " style="width: 90px;" aria-label=".form-select-sm example" id="whatsapp">
+          <option value=""> </option>
+          <option value="Si">Si</option>
+          <option value="No">No</option>
+          <option value="n/a">N/A</option>
+        </select>
+        </div>
+
+        <div class="d-flex justify-content-end">
+          <label class="form-check-label me-1" for="incentivar_encuesta">Incentivar Encuesta</label>
+          <select class="form-select form-select-sm" style="width: 90px;" aria-label=".form-select-sm example" id="incentivar_encuesta">
+          <option value=""> </option>
+          <option value="Si">Si</option>
+          <option value="No">No</option>
+          <option value="n/a">N/A</option>
+        </select>
+        </div>
+
+        <div class="d-flex justify-content-end">
+          <label class="form-check-label me-1" for="tiempos">Tiempos de llamada correctos</label>
+          <select class="form-select form-select-sm " style="width: 90px;" aria-label=".form-select-sm example" id="tiempos">
+          <option value=""> </option>
+          <option value="Si">Si</option>
+          <option value="No">No</option>
+          <option value="n/a">N/A</option>
+        </select>
+        </div>
+
+        <div class="d-flex justify-content-end">
+          <label class="form-check-label me-1" for="tiempos">Usa speech PPROMO?</label>
+          <select class="form-select form-select-sm " style="width: 90px;" aria-label=".form-select-sm example" id="ppromo">
+          <option value=""> </option>
+          <option value="Si">Si</option>
+          <option value="No">No</option>
+          <option value="n/a">N/A</option>
+        </select>
+        </div>
+
+        <div class="d-flex justify-content-end">
+          <label class="form-check-label me-1" for="tiempos">Marca retención poSitiva?</label>
+          <select class="form-select form-select-sm " style="width: 90px;" aria-label=".form-select-sm example" id="reten+">
+          <option value=""> </option>
+          <option value="Si">Si</option>
+          <option value="No">No</option>
+          <option value="n/a">N/A</option>
+        </select>
+        </div>
+
+        <div class="d-flex justify-content-end">
+          <label class="form-check-label me-1" for="tiempos">Cierre repasando acciones y asegurando informacion</label>
+          <select class="form-select form-select-sm " style="width: 90px;" aria-label=".form-select-sm example" id="cierre">
+          <option value=""> </option>
+          <option value="Si">Si</option>
+          <option value="No">No</option>
+          <option value="n/a">N/A</option>
+        </select>
+        </div>
+
+        <div class="d-flex justify-content-end fs-4">
+          <label class="form-check-label me-5" for=""><strong id="" class="">CheckList</strong></label>
+          <strong id="porcentaje" class="">-%</strong>
+        </div>
+
+
+
+      </div>
+
+      <div class="col">
+        <div>
+          <label class="form-check-label" for="incentivar_encuesta">Detalle LLamada:</label>
+          <textarea id="detalle_llamada" class="col form-control" name="detalle_llamada" rows="4" cols="50"></textarea>
+        </div>
+        <div>
+          <label class="form-check-label" for="incentivar_encuesta">Habilidades a Mejorar:</label>
+          <textarea id="habilidades_mejorar" class="col form-control" name="habilidades_mejorar" rows="4" cols="50"></textarea>
+        </div>
+        <div>
+          <label class="form-check-label" for="incentivar_encuesta">Devolucion:</label>
+          <textarea id="devolucion" class="col form-control" name="devolucion" rows="4" cols="50"></textarea>
+        </div>
+
+        <div class="col m-1 row">
+          <strong class="col">NPS:<p type="text" id="nps"></p></strong>
+          <strong class="col">FCR:<p type="text" id="fcr"></p></strong>
+          <strong class="col">Reten:<p type="text" id="reten"></p></strong>
+          <strong class="col">TMO:<p type="text" id="tmo"></p></strong>
+          <strong class="col">TRF:<p type="text" id="trf"></p></strong>
+          <strong class="col">SCC:<p type="text" id="scc"></p></strong>
+          <strong class="col">hReten:<p type="text" id="hreten"></p></strong>
+          <strong class="col">Bajas:<p type="text" id="bajas"></p></strong>
+
+        </div>
+
+
+
+
+      </div>
+
+    </div>
+
+    <div class="mt-1">
+
+      <div class="d-flex">
+        <label for="listaMailsValor" class="form-label"></label>
+        <input class="form-control w-25 m-1" list="listaMails" id="listaMailsValor" placeholder="Con copia a...:">
+        <datalist id="listaMails">
+        </datalist>
+      </div>
+
+      <div id="divDestinatarios" class="m-1">
+        <!-- destinatarios -->
+      </div>
+      <button class="btn btn-outline-success m-1" id="btn_final">Finalizar</button>
+
+
+    </div>
+
+
+  </div>
+
+
+
+  </div>
+
+
+
+  </div>
+  <!-- Modales -->
+  <div class="modal fade" id="loading" tabindex="-1" aria-labelledby="loadingLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-body">
+          <div class="d-flex align-items-center text-secondary" id="loading">
+            <strong role="status">Cargando...</strong>
+            <div class="spinner-border ms-auto" aria-hidden="true"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="modal fade" id="success" tabindex="-1" aria-labelledby="successLabel" aria-hidden="true">
+    <div class="modal-dialog ">
+      <div class="modal-content">
+
+        <div class="modal-body">
+          <div class="d-flex align-items-center text-secondary" id="loading">
+            <strong role="status">Devolucion Enviada<i class="fa-regular fa-circle-check"></i></strong>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <div class="modal fade" id="preview" tabindex="-1" aria-labelledby="previewLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+
+        <div class="modal-body">
+          <div class="d-flex align-items-center text-secondary" id="loading">
+            <div class="container">
+              <div id="modalPreview">
+              </div>
+            </div>
+
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-outline-warning" id="btn_editar">Modificar</button>
+            <button class="btn btn-outline-success" id="btn_enviar">Enviar</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <!-- Fin modales -->
+
+  <?!= include('app'); ?>
+</body>
+
+</html>

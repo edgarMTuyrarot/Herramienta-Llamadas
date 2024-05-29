@@ -1,0 +1,23 @@
+<script>
+    function FileUpload(file){
+      var reader = new FileReader();
+      reader.onload = function(event){
+          //console.log(event.target.result)
+          const obj={
+              filename: "audio",
+              mimeType: file.type,
+              bytes: [...new Int8Array(event.target.result)]
+          }
+          
+          google.script.run.withSuccessHandler(function(e){
+  
+          } ).subirAudio(obj)
+          
+          
+      }
+      reader.readAsArrayBuffer(file)
+        
+      
+      
+    }
+  </script>
