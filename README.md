@@ -13,5 +13,6 @@ Antes de enviar se presenta un modal donde se ve una prevista del mail que recib
 
 El monitoreo queda registrado en otro sheet.
 
+La solucion esta actualmente en produccion y bajo un plan de trabajo de la cuenta. Tiene una tasa de 20 registros por dia.
 
 
